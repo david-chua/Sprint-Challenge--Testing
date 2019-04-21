@@ -7,12 +7,36 @@ beforeEach(()=> {
   return db('gamesTest').truncate();
 });
 
-describe('The Server', () => {
+  describe('The Server', () => {
+    it('should set testing environment', () => {
+      const env = process.env.DB_ENV;
 
-  it('should set testing environment', () => {
-  const env = process.env.DB_ENV;
+      expect(env).toBe('testing');
+    });
 
-  expect(env).toBe('testing');
-  });
+  describe('Get /games', () => {
+    it ('should respond with an empty array when there are no games', async () => {
+      const res = await request(server).get('/games');
 
+      expect(res.status).toBe(200);
+      expect(res.type).toBe("application/json");
+      expect(res.body).toEqual([]);
+    });
+
+    it ('should respond with all games in the db', async () => {
+      await db('gamesTest').insert([
+        { title: 'Pacman', genre: 'Arcade', releaseYear: 1980 },
+        { title: 'Donkey Kong', genre: 'Arcade', releaseYear: 1995 }
+      ]);
+
+      const res = await request(server).get('/games');
+      const data = res.body;
+
+      expect(res.status).toBe(200);
+      expect(res.type).toBe("application/json");
+      expect(res.body.length).toEqual(2);
+      expect(data[0].title).toBe('Pacman');
+      expect(data[0].id).toBe(1);
+      })
+    }); // get/games end point
 });
