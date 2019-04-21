@@ -18,24 +18,20 @@ server.get('/games', async (req, res) => {
 
 server.post('/games', async(req,res) =>{
   const newGame = {
-    title: req.body.name,
+    title: req.body.title,
     genre: req.body.genre,
     releaseYear: req.body.releaseYear
   }
 
-  // if (newGame.title || newGame.genre === ''){
-  //   res.status(402).json({error: "Missing information"})
-  // }
-  // else {
+  console.log(newGame)
     games
       .insert(newGame)
       .then(response => {
         res.status(200).json(response)
       })
       .catch(err => {
-        res.status(500).json({err: 'Internal Server Error: Data not Added'})
+        res.status(422).json({err: 'Internal Server Error: Data not Added'})
       });
-  // };
 })
 
 

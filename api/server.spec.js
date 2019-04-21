@@ -41,9 +41,24 @@ beforeEach(()=> {
     }); // get/games end point
 
   describe('Insert /games route', () => {
-    it('Route should respond with a 500 error if there is an error in the system or no data is added', async() =>{
+    it('Route should respond with a 422 error if there is an error in the system or no data is added', async() =>{
       const res = await request(server).post('/games');
-      expect(res.status).toBe(500);
+      expect(res.status).toBe(422);
+      expect(res.type).toBe("application/json");
+    });
+
+    it('Route should respond with a 422 error if field are missing', async() => {
+      const res = await request(server).post('/games')
+      .send({title: 'Pacman', releaseYear: 1999})
+      .expect(422)
+    });
+
+    it('Should return an object if a game gets added', async() => {
+      const res = await request(server).post('/games')
+      .send({title: 'Pacman', genre: 'Arcade', releaseYear: 1999})
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect({id: 1, title: 'Pacman', genre: 'Arcade', releaseYear: 1999})
     })
-  })
+  }) // insert games end point
 });
