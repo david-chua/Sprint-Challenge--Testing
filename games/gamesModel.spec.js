@@ -43,6 +43,13 @@ describe('The Games Model', () => {
 
     });
 
+    it('should return an empty array if there are no data', async () => {
+      const games = await Games.getAll();
+
+      expect(games.length).toBe(0);
+      expect(games).toEqual([])
+    })
+
   }); // describe get all fn
 
 }); //main describe
