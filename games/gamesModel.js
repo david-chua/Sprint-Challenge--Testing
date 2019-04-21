@@ -5,8 +5,10 @@ module.exports ={
   insert
 }
 
-function insert(game){
-  return null;
+async function insert(game){
+  const [id]  = await db('gamesTest').insert(game);
+
+  return db('gamesTest').where({ id }).first();
 }
 
 function getAll(){
