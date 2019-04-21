@@ -39,4 +39,11 @@ beforeEach(()=> {
       expect(data[0].id).toBe(1);
       })
     }); // get/games end point
+
+  describe('Insert /games route', () => {
+    it('Route should respond with a 500 error if there is an error in the system or no data is added', async() =>{
+      const res = await request(server).post('/games');
+      expect(res.status).toBe(500);
+    })
+  })
 });
