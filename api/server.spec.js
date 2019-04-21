@@ -61,4 +61,27 @@ beforeEach(()=> {
       .expect({id: 1, title: 'Pacman', genre: 'Arcade', releaseYear: 1999})
     })
   }) // insert games end point
+
+  describe('Delete a movie endpoint', () => {
+
+    it('should respond with a 500 error', async() => {
+      const deleteThisID = 2
+      const res = await request(server).del(`/games/${deleteThisID}`)
+      expect(500);
+    });
+
+    it('should respond with an object', async() => {
+      await db('gamesTest').insert({title: 'Spyro', genre: 'Adventure', releaseYear: 1994})
+
+      const deleteThisID = 1;
+
+      const res = await request(server).del(`/games/${deleteThisID}`)
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({ id: 1,title: 'Spyro', genre: 'Adventure', releaseYear: 1994})
+    })
+
+
+
+
+  }) // delete movie end point
 });

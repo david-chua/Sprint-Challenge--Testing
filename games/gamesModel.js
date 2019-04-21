@@ -2,7 +2,8 @@ const db = require('../data/dbConfig.js');
 
 module.exports ={
   getAll,
-  insert
+  insert,
+  remove
 }
 
 async function insert(game){
@@ -13,4 +14,12 @@ async function insert(game){
 
 function getAll(){
   return db('gamesTest');
+}
+
+async function remove(id){
+  const deletedGame = await db('gamesTest').where({id}).first();
+  await db('gamesTest')
+    .where('id', id)
+    .del()
+    return deletedGame
 }

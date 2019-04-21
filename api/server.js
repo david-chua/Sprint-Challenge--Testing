@@ -23,7 +23,6 @@ server.post('/games', async(req,res) =>{
     releaseYear: req.body.releaseYear
   }
 
-  console.log(newGame)
     games
       .insert(newGame)
       .then(response => {
@@ -32,7 +31,22 @@ server.post('/games', async(req,res) =>{
       .catch(err => {
         res.status(422).json({err: 'Internal Server Error: Data not Added'})
       });
+});
+
+server.delete('/games/:id', async(req,res) =>{
+  const {id} = req.params;
+
+  games
+    .remove(id)
+    .then(response =>{
+      res.json(response)
+    })
+    .catch(err => {
+      return res.status(500).status({err: "Internal server error" })
+    })
 })
+
+
 
 
 module.exports = server;

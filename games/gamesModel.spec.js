@@ -52,4 +52,17 @@ describe('The Games Model', () => {
 
   }); // describe get all fn
 
+  describe('the delete fn', () =>{
+    it("should return the deleted game's id", async() =>{
+      await Games.insert({title: 'Spyro', genre: 'Adventure', releaseYear: 1994})
+
+      const deletedItem = await Games.remove(1).then(response => {
+        return response
+      })
+
+      expect(deletedItem.id).toBe(1);
+      expect(deletedItem.title).toBe('Spyro');
+    })
+  })
+
 }); //main describe
